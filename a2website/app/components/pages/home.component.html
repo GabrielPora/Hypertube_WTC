@@ -1,0 +1,75 @@
+<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="0.5" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()">
+    <div class="column" *ngFor="let movie of viewMovies">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">    
+            <div class="hovereffect" style="float:left;">
+                <img class="img-responsive" [src]="movie.large_cover_image" 
+                    onError="this.src = 'https://s-media-cache-ak0.pinimg.com/736x/ca/78/d7/ca78d7aecfb4818cff40efb8b368aac0.jpg'" 
+                    alt="{{movie.title}}"/>
+                <div class="overlay">
+                    <h2>{{ movie.title }}</h2>
+                    <p>{{ movie.synopsis | truncate : 200 }}</p>
+                    <br/>
+                    <a class="info" (click)="viewMovie(movie)">View Info</a>
+                </div>
+            </div>    
+        </div>
+    </div>
+</div>
+<div class="nav_tabs_next hidden-xs">
+    <a (click)="nextPage()">
+        <p>N</p>
+        <p>E</p>
+        <p>X</p>
+        <p>T</p>
+    </a>
+</div>
+<div class="nav_tabs_back hidden-xs">
+    <a (click)="previousPage()">
+        <p>B</p>
+        <p>A</p>
+        <p>C</p>
+        <p>K</p>
+    </a>
+</div>
+<div class="bottom_buttons visible-xs">
+    <a class="left" (click)="previousPage(true)">BACK</a>
+    <a class="right" (click)="nextPage(true)">NEXT</a>
+</div>
+
+<!--Modal View for the Movie-->
+<modal #modal *ngIf="selectedMovie != null">
+    <modal-header>
+        <h4 class="modal-title">{{selectedMovie.title_long}}</h4>
+    </modal-header>
+    <modal-body>
+        <div class="container-fluid">
+            <div class="column">
+                <div class="col-lg-5 col-md-6 col-sm-6 col-xs-8">
+                    <img class="img-responsive" [src]="selectedMovie.medium_cover_image" 
+                    onError="this.src = 'https://s-media-cache-ak0.pinimg.com/736x/ca/78/d7/ca78d7aecfb4818cff40efb8b368aac0.jpg'" 
+                    alt="{{selectedMovie.title}}"/>
+                </div>
+                <div class="col-lg-5 col-md-6 col-sm-6 col-xs-8">
+                    <b>Summary:</b>
+                    <p>{{selectedMovie.summary | truncate : 500 }}</p>
+                    <b>Rating:</b> {{selectedMovie.rating}}<br/>
+                    <b>Language:</b> {{selectedMovie.language}}<br/>
+                    <b>MPA Rating:</b> {{ selectedMovie.mpa_rating }}
+                </div>
+            </div>
+        </div> 
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-default" (click)="playMovie()">Play Movie</button>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+    </modal-footer>
+</modal>
+
+<!--User Panel-->
+<div class="userInfo">
+    <img alt="{{user.username}}" />
+    <div class="info">
+        <p>{{ user.username }}</p>
+        <a (click)="logout()">Logout</a>
+    </div>
+</div>

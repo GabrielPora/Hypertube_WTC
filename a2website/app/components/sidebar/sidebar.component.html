@@ -1,0 +1,34 @@
+<nav class="navbar navbar-inverse sidebar" role="navigation">
+<div class="container-fluid">
+	<!-- Brand and toggle get grouped for better mobile display -->
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-sidebar-navbar-collapse-1" 
+            onclick="$('#bs-sidebar-navbar-collapse-1').toggleClass('collapse');">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		<a class="navbar-brand" routerLink="/home">{{ branding }}</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+		<ul class="nav navbar-nav">
+			<li><a routerLink="/home">{{ 'Browse' | translate }}<span style="font-size:18px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-home"></span></a></li>
+			<!--<li><a routerLink="/search">Search<span style="font-size:18px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-search"></span></a></li>-->
+            <li><a routerLink="/profile">{{ 'Profile' | translate }}<span style="font-size:18px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-user"></span></a></li>
+			<li><a routerLink="/messages">{{ 'Messages' | translate }}<span style="font-size:18px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-envelope"></span></a></li>
+            <li><a routerLink="/about">{{ 'About Us' | translate }}<span style="font-size:18px;" class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a></li>
+			<li>
+				<div class="btn-group" style="margin: auto;">
+					<button *ngFor="let lang of supportedLanguages"
+						(click)="selectLang(lang.value)"
+						class="btn btn-default btn-sm" [class.btn-primary]="isCurrentLang(lang.value)">
+						{{ lang.display }}
+					</button>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>
+</nav>

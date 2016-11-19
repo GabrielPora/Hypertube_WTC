@@ -1,0 +1,82 @@
+<div class="container">
+    <h1>Edit Profile</h1>
+  	<hr>
+	<div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <!--<img src="//placehold.it/100" class="avatar img-circle" alt="avatar">-->
+          <img [src]=" user.image_link " class="avatar img-circle" alt="avatar"
+            onError="this.src = '//placehold.it/100'">
+          <div *ngIf="(account_type === '42') ? false : true">
+          <h6>{{ 'Upload a different photo...' | translate }}</h6>
+          <input type="file" class="form-control" accept=".png, .jpeg">
+          </div>
+        </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info" >
+        <div class="alert alert-info" *ngIf="(account_type === '42') ? true : false">
+          <!--<a class="panel-close close" data-dismiss="alert">×</a>--> 
+          <i class="fa fa-coffee"></i>
+          This is a <strong>42 Account</strong>. You cannot change any data. Please make changes on the 42 Intranet.
+        </div>
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label class="col-lg-3 control-label">{{ 'First Name' | translate }}:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{user.firstName}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">{{ 'Last Name' | translate }}:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{user.lastName}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">{{ 'E-mail' | translate }}:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" value="{{user.email}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">{{ 'Username' | translate }}:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" value="{{user.username}}">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">{{ 'Password' | translate }}:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">{{ 'Confirm Password' | translate }}:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="password" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input *ngIf="(account_type === '42') ? false : true" type="button" class="btn btn-primary" value="{{ 'Save Changes' | translate }}">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
+
+<div class="userInfo">
+    <img alt="{{user.username}}" />
+    <div class="info">
+        <p>{{ user.username }}</p>
+        <a (click)="logout()">Logout</a>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+ <div class="login jumbotron center-block" style="padding-left: 20px; padding-right: 20px;">
+   <h1>Register</h1>
+    <form role="form" 
+        (submit)="signup($event, username.value, firstName.value, lastName.value, email.value, password.value, confpwd.value)">
+        <div class="form-group">
+            <label for="username">{{ 'Username' | translate }}</label>
+            <input type="text" #username class="form-control" id="username" placeholder="{{ 'Username' | translate }}" required="true">
+        </div>
+        <div class="form-group">
+            <label for="firstName">{{ 'First Name' | translate }}</label>
+            <input type="text" #firstName class="form-control" id="firstName" placeholder="{{ 'First Name' | translate }}" required="true">
+        </div>
+        <div class="form-group">
+            <label for="lastName">{{ 'Last Name' | translate }}</label>
+            <input type="text" #lastName class="form-control" id="lastName" placeholder="{{ 'Last Name' | translate }}" required="true">
+        </div>
+        <div class="form-group">
+            <label for="email">{{ 'E-mail' | translate }}</label>
+            <input type="email" #email class="form-control" id="email" placeholder="{{ 'E-mail' | translate }}">
+        </div>
+        <div class="form-group">
+            <label for="password">{{ 'Password' | translate }}</label>
+            <input type="password" #password class="form-control" id="password" placeholder="{{ 'Password' | translate }}" required="true">
+        </div>
+        <div class="form-group">
+            <label for="confpwd">{{ 'Confirm Password' | translate }}</label>
+            <input type="password" #confpwd class="form-control" id="confpwd" placeholder="{{ 'Confirm Password' | translate }}" required="true">
+        </div>
+        <button type="submit" class="btn btn-default">{{ 'Submit' | translate }}</button>
+        <a [routerLink]="['/forgot']">{{ 'Forgot Password' | translate }}?</a>
+    </form>
+ </div>

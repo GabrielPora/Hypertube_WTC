@@ -1,0 +1,35 @@
+ <div class="login jumbotron center-block" style="padding-left: 20px; padding-right: 20px;">
+   <h1>{{ 'Login' | translate }}</h1>
+   <form role="form" (submit)="login($event, username.value, password.value)">
+    <div class="form-group">
+      <label for="username">{{ 'Username' | translate }}</label>
+      <input type="text" #username class="form-control" id="username" placeholder="Username">
+    </div>
+    <div class="form-group">
+      <label for="password">{{ 'Password' | translate }}</label>
+      <input type="password" #password class="form-control" id="password" placeholder="Password">
+    </div>
+    <div class="btn-group btn-block">
+      <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+      <button [routerLink]="['/signup']" type="submit" class="btn btn-info">{{ 'Create Account' | translate }}</button>
+      <button [routerLink]="['/forgot']" type="submit" class="btn btn-danger">{{ 'Forgot Password' | translate }}</button>
+    </div>
+  </form>
+  <p>{{ 'Or Login With' | translate }}:</p>
+  <button type="button" class="btn btn-primary btn-block" 
+    onclick="window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=cf355a16a80ff46f91915c6ac4a1ec20ed7cb9f8b45a77ebe9878953f012a673&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code'">
+    42
+  </button>
+ </div>
+
+ <modal #modal>
+    <modal-header>
+        <h4 class="modal-title">{{ 'Login' | translate }}</h4>
+    </modal-header>
+    <modal-body>
+        {{ errMessage | translate }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+    </modal-footer>
+</modal>

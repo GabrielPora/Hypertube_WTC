@@ -1,0 +1,20 @@
+<div style="margin-left: 10px;">
+    <h3>About Us</h3>
+    <p>To the developers of this Website:</p>
+    <ul>
+        <li>ddu-toit</li>
+        <li>oexall</li>
+        <li>daviwel</li>
+        <li>ggroener</li>
+    </ul>
+    <p>We salute you.</p>
+    <p>PS. You now have access to some cookies.</p>
+</div>
+
+<div *ngIf="(user != undefined) ? true : false" class="userInfo">
+    <img alt="{{user.username}}" />
+    <div class="info">
+        <p>{{ user.username }}</p>
+        <a (click)="logout()">Logout</a>
+    </div>
+</div>
