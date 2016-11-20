@@ -5,10 +5,12 @@ var passport	= require('passport');
 var	ejs			= require('ejs');
 var session		= require('express-session');
 var cors		= require('cors');
+var busbuy		= require('connect-busboy');
 
-var userController 	= require('./controllers/user.js');
-var	AuthController	= require('./controllers/auth.js');
-var Config			= require('./config/database.js');
+var apiAuthController 	= require('./controllers/api.auth.js');
+var userController 		= require('./controllers/user.js');
+var	AuthController		= require('./controllers/auth.js');
+var Config				= require('./config/database.js');
 
 var app 		= express();
 var port 		= process.env.PORT || 3001;
@@ -31,10 +33,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
+app.use(busbuy());
 
 app.use(passport.initialize());
 require('./controllers/passport.js')(passport);
-
 app.use(session({
   	secret: Config.secret,
   	saveUninitialized: true,
@@ -45,17 +47,28 @@ router.get('/', (req, res) => {
 	res.json({ message: 'Salutations from the REST Api!' });
 });
 
+/*Adds a new User. Unprotected.*/
 router.route('/users')
 	.post(userController.postUser);
 
+/*Local User Authentication. Unprotected. Returns Access Token*/
 router.route('/authenticate')
 	.post(AuthController.authenticate);
+/*Exchanges 42 tmp token for access token. Unprotected. Returns Access Token*/
 router.route('/exchange42')
 	.post(AuthController.authenticate42);
-router.route('/auth_token', function (req, res) {
-	console.log('\n\nROUTE\n\n')
-	console.log(req);
-});
+
+/*Create Endpoint for getting user information, updating as well. Protected.*/
+router.route('/user')
+	.get(apiAuthController.isAuthenticated, userController.getUser)
+	.put(apiAuthController.isAuthenticated, userController.putUser);
+
+/*Create Endpoints for managing the user profile picture. Protected.*/
+router.route('/upload_image')
+	.post(apiAuthController.isAuthenticated, userController.putUserImage);
+
+router.route('/user_images/:user_image')
+	.get(userController.getUserImage);
 
 app.use('/api', router);
 app.listen(port);
