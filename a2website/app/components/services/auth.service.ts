@@ -50,6 +50,14 @@ export class AuthService {
     }
 
     logout() {
+        var user = JSON.parse(localStorage.getItem('user'));
+        var url = 'http://localhost:3001/api/delete_token/' + user._id;
+        this.http.delete(url)
+            .subscribe(
+                error => console.log(error),
+                () => console.log('Deleted')
+            );
+
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
         localStorage.removeItem('account_type');

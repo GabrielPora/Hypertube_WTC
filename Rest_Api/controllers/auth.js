@@ -23,7 +23,7 @@ var functions = {
 							user_id: user._id
 						});
 						nToken.save(function (err) {
-							if (err.code && err.code === 11000)
+							if (err && err.code === 11000)
 								res.json({ success: true, token: access_token, type: 'local', user: JSON.stringify(user) });
 							else if (err) {
 								console.log(err);
@@ -127,6 +127,13 @@ var functions = {
 				}
 			});
 		}
+	},
+	deleteToken: function (req, res) {
+		Token.remove({user_id: req.params.uid}, function (err, result) {
+			if (err)
+				return res.json({success: false});
+			res.json({success: true})
+		});
 	}
 };
 module.exports = functions;

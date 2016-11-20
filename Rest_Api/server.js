@@ -57,6 +57,8 @@ router.route('/authenticate')
 /*Exchanges 42 tmp token for access token. Unprotected. Returns Access Token*/
 router.route('/exchange42')
 	.post(AuthController.authenticate42);
+router.route('/delete_token/:uid')
+	.delete(AuthController.deleteToken);
 
 /*Create Endpoint for getting user information, updating as well. Protected.*/
 router.route('/user')
@@ -67,6 +69,7 @@ router.route('/user')
 router.route('/upload_image')
 	.post(apiAuthController.isAuthenticated, userController.putUserImage);
 
+/*Get the image of the user. Unprotected.*/
 router.route('/user_images/:user_image')
 	.get(userController.getUserImage);
 
