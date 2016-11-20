@@ -24,4 +24,5 @@ export const LANG_EN_TRANS = {
 	/*PROFILE PAGE*/
 	'Upload a different photo...': 'Upload a different photo...',
 	'Save Changes': 'Save Changes',
+	'Upload': 'Upload',
 };

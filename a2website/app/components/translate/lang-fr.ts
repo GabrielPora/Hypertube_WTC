@@ -24,4 +24,5 @@ export const LANG_FR_TRANS = {
 	/*PROFILE PAGE*/
 	'Upload a different photo...': 'Téléchargez une autre photo...',
 	'Save Changes': 'Sauvegarder les modifications',
+	'Upload': 'Télécharger',
 };

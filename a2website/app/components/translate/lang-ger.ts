@@ -24,4 +24,5 @@ export const LANG_GER_TRANS = {
 	/*PROFILE PAGE*/
 	'Upload a different photo...': 'Anderes Foto hochladen...',
 	'Save Changes': 'Änderungen speichern',
+	'Upload': 'Hochladen',
 };
