@@ -1,0 +1,51 @@
+<div class="jumbotron" style="padding: 10px;">
+	<h1>{{ (entireMovie !== null) ? entireMovie.title : '' }}</h1>
+	<hr>
+	<div align="center" class="embed-responsive embed-responsive-16by9">
+		<video class="embed-responsive-item" controls seeking >
+			<!--<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}" type="video/mp4">-->
+
+		</video>
+	</div>
+	<hr>
+	<div class="container-fluid">
+		<div class="column">
+			<div class="col-xs-12 col-md-8">
+				<h4>Summary:</h4>
+				<p style="padding: 15px 30px 0px 30px; font-size: 16px;">{{ entireMovie !== null ? entireMovie.description_full : '' }}</p>
+			</div>
+			<div class=".col-xs-6 .col-md-4">
+				<table>
+					<tr>
+						<td style="width: 110px;"><b>Director:</b></td>
+						<td>{{ imdb !== null ? imdb.Director : '' }}</td>
+					</tr>
+					<tr>
+						<td style="width: 110px; valing:top;"><b>Actors:</b></td>
+						<td>{{ imdb !== null ? imdb.Actors : '' }}</td>
+					</tr>
+					<tr>
+						<td style="width: 110px; valing:top;"><b>Imdb Rating:</b></td>
+						<td>{{ imdb !== null ? imdb.imdbRating : '' }} <span class="glyphicon glyphicon-star"></span></td>
+					</tr>
+					<tr>
+						<td style="width: 110px; valing:top;"><b>Duration:</b></td>
+						<td>{{ imdb !== null ? imdb.Runtime : '' }}</td>
+					</tr>
+					<tr>
+						<td style="width: 110px; valing:top;"><b>Genre:</b></td>
+						<td>{{ imdb !== null ? imdb.Genre : '' }}</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="userInfo">
+    <img src="{{ user.image_link }}" alt="{{user.username}}" style="padding-left: 2px; max-height: 48px; max-width: 48px"/>
+    <div class="info">
+        <p>{{ user.username }}</p>
+        <a (click)="logout()">Logout</a>
+    </div>
+</div>

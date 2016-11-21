@@ -60,14 +60,18 @@
         </div> 
     </modal-body>
     <modal-footer>
-        <button type="button" class="btn btn-default" (click)="playMovie()">Play Movie</button>
+        Play At: 
+        <button type="button" class="btn btn-default" 
+                *ngFor="let torrent of selectedTorrent"
+                [routerLink]="['/movie']"
+                [queryParams]="{ mid: selectedMovie.id, quality: torrent.quality }">{{ torrent.quality }}</button>
         <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
     </modal-footer>
 </modal>
 
 <!--User Panel-->
 <div class="userInfo">
-    <img alt="{{user.username}}" />
+    <img src="{{ user.image_link }}" alt="{{user.username}}" style="padding-left: 2px; max-height: 48px; max-width: 48px"/>
     <div class="info">
         <p>{{ user.username }}</p>
         <a (click)="logout()">Logout</a>

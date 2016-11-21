@@ -27,8 +27,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 				let access_tkn = param['access_token'];
 				if (code !== undefined)
 					this.login42(code);
-				if (access_tkn !== undefined)
-					console.log(access_tkn);
 			});
 	}
 

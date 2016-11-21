@@ -1,11 +1,12 @@
-import { ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders } 	from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './components/pages/home.component';
-import { AboutComponent } from './components/pages/about.component';
-import { LoginComponent } from './components/pages/login.component';
-import { SignupComponent } from './components/pages/signup.component';
-import { ProfileComponent } from './components/pages/profile.component';
+import { HomeComponent } 		from './components/pages/home.component';
+import { AboutComponent } 		from './components/pages/about.component';
+import { LoginComponent } 		from './components/pages/login.component';
+import { SignupComponent } 		from './components/pages/signup.component';
+import { ProfileComponent } 	from './components/pages/profile.component';
+import { MovieComponent } 		from './components/pages/movie.component';
 
 import { AuthGaurd } from './components/auth.gaurd';
 
@@ -26,6 +27,11 @@ const appRoutes: Routes = [
 	{
 		path: 'profile',
 		component: ProfileComponent,
+		canActivate: [AuthGaurd]
+	},
+	{
+		path: 'movie',
+		component: MovieComponent,
 		canActivate: [AuthGaurd]
 	},
 	{

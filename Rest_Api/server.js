@@ -10,6 +10,7 @@ var busbuy		= require('connect-busboy');
 var apiAuthController 	= require('./controllers/api.auth.js');
 var userController 		= require('./controllers/user.js');
 var	AuthController		= require('./controllers/auth.js');
+var MovieController		= require('./controllers/showMovie.js');
 var Config				= require('./config/database.js');
 
 var app 		= express();
@@ -72,6 +73,9 @@ router.route('/upload_image')
 /*Get the image of the user. Unprotected.*/
 router.route('/user_images/:user_image')
 	.get(userController.getUserImage);
+/*Get the Movie and stream it to the client. Unprotected.*/
+router.route('/show_movie/:mid/:quality')
+	.get(MovieController.getMovie);
 
 app.use('/api', router);
 app.listen(port);

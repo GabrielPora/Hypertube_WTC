@@ -82,7 +82,7 @@ var functions = {
 									user_id: regUser._id
 								});
 								nToken.save(function (err) {
-									if (err.code === 11000) {
+									if (err && err.code === 11000) {
 										res.json({ success: true, token: jsonResponse.access_token, type: '42', user: JSON.stringify(regUser) });
 									} else if (err) {
 										console.log(err);

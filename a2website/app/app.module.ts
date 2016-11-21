@@ -12,6 +12,7 @@ import { AboutComponent }               from './components/pages/about.component
 import { LoginComponent }               from './components/pages/login.component';
 import { SignupComponent }              from './components/pages/signup.component';
 import { ProfileComponent }             from './components/pages/profile.component';
+import { MovieComponent }               from './components/pages/movie.component';
 import { routing }                      from './app.routing';
 
 import { TruncatePipe }                 from './components/truncate.pipe';
@@ -39,6 +40,7 @@ const WINDOW_PROVIDER: ValueProvider = {
                   LoginComponent,
                   SignupComponent,
                   ProfileComponent,
+                  MovieComponent,
                   TruncatePipe,
                   TranslatePipe ],
   providers: [ WINDOW_PROVIDER, 

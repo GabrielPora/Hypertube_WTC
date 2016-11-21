@@ -21,6 +21,7 @@ export class HomeComponent {
   private currPage = 1;
   private viewMovies;
   private selectedMovie = null;
+  private selectedTorrent = null;
 
   constructor(public moviesService: MoviesService, 
               window: Window, 
@@ -82,12 +83,7 @@ export class HomeComponent {
 
   viewMovie(movie) {
     this.selectedMovie = movie;
+    this.selectedTorrent = movie.torrents;
     this.modal.open();
-  }
-
-  playMovie() {
-    this.modal.dismiss();
-    console.log('goto Movie: %s', this.selectedMovie.title);
-    this.selectedMovie = null;
   }
 }
