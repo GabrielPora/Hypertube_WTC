@@ -1,6 +1,6 @@
-export const LANG_GER_NAME = 'ger';
+export const LANG_DE_NAME = 'de';
 
-export const LANG_GER_TRANS = {
+export const LANG_DE_TRANS = {
 	'hello world': 'Hallo Welt',
 	/*SIDE NAV PANEL*/
 	'Browse': 'Durchsuchen',

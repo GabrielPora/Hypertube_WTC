@@ -20,7 +20,7 @@ export class SidebarComponent implements OnInit {
     this.supportedLanguages = [
         { display: 'English', value: 'en' },
         { display: 'French', value: 'fr' },
-        { display: 'German', value: 'ger' },
+        { display: 'German', value: 'de' },
     ];
     if (localStorage.getItem('selLang'))
         this.selectLang(localStorage.getItem('selLang'));
