@@ -28,6 +28,8 @@
     "passport-jwt": "^2.2.1",
     "path": "^0.12.7",
     "request": "^2.78.0",
-    "torrent-stream": "^1.0.3"
+    "torrent-stream": "^1.0.3",
+    "unzip": "^0.1.11",
+    "yify-subs": "^1.0.0"
   }
 }

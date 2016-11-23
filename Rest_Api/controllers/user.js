@@ -1,4 +1,5 @@
 var User	= require('../models/user.js');
+var View	= require('../models/views.js');
 var bcrypt	= require('bcrypt-nodejs');
 var fs 		= require('fs');
 var path	= require('path');
@@ -69,4 +70,53 @@ exports.putUserImage = function (req, res) {
 exports.getUserImage = function(req, res) {
 	var imgPath = path.resolve('user_images/' + req.params.user_image);
 	res.sendFile(imgPath);
+}
+
+//Get User profile
+exports.getUserProfile = function (req, res) {
+	if (req.params.usrn) {
+		User.findOne({ username: req.params.usrn }, function (err, user) {
+			if (err) return res.json({ success: false, error: err });
+			if (!user) return res.json({ success: false, error: 'No User' });
+
+			var user = {
+				username: user.username,
+				firstName: user.firstName,
+				lastName: user.lastName,
+				image_link: user.image_link
+			};
+			res.json({ success: true, user: user });
+		});
+	}
+}
+
+exports.postViews = function(req, res) {
+	if (req.params.mid) {
+		View.findOne({ userId: req.user._id, movieId: req.params.mid }, function (err, view) {
+			if (err) return res.json({success: false, error: err});
+			if (!view) {
+				var view = new View({
+					userId: req.user._id,
+					movieId: req.params.mid
+				});
+				view.save(function (err) {
+					if (err) return res.json({success: false, error: err });
+					res.json({ success: true });
+				});
+			}
+		});		
+	}
+}
+
+exports.getViewed = function (req, res) {
+	if (req.params.mid) {
+		View.findOne({ userId: req.user._id, movieId: req.params.mid }, function (err, user) {
+			if (err) return res.json({success: false, error: err });
+			if (!user) {
+				res.json({ success: true, viewed: false });
+			} else {
+				res.json({ success: true, viewed: true });
+			}
+		});
+	}
 }

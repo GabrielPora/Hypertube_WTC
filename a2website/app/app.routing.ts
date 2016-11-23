@@ -7,6 +7,7 @@ import { LoginComponent } 		from './components/pages/login.component';
 import { SignupComponent } 		from './components/pages/signup.component';
 import { ProfileComponent } 	from './components/pages/profile.component';
 import { MovieComponent } 		from './components/pages/movie.component';
+import { UserProfile }          from './components/pages/userProfile.component';
 
 import { AuthGaurd } from './components/auth.gaurd';
 
@@ -27,6 +28,11 @@ const appRoutes: Routes = [
 	{
 		path: 'profile',
 		component: ProfileComponent,
+		canActivate: [AuthGaurd]
+	},
+	{
+		path: 'user',
+		component: UserProfile,
 		canActivate: [AuthGaurd]
 	},
 	{

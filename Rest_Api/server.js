@@ -11,6 +11,7 @@ var apiAuthController 	= require('./controllers/api.auth.js');
 var userController 		= require('./controllers/user.js');
 var	AuthController		= require('./controllers/auth.js');
 var MovieController		= require('./controllers/showMovie.js');
+var CommentController 	= require('./controllers/comment.js');
 var Config				= require('./config/database.js');
 
 var app 		= express();
@@ -24,7 +25,7 @@ var corsOptions = {
 };
 var issuesOptions = {
 	origin: true,
-	methods: [ 'POST', 'PUT' ],
+	methods: [ 'POST', 'PUT', 'GET' ],
 	credentials: true
 };
 app.use(cors(corsOptions));
@@ -65,17 +66,33 @@ router.route('/delete_token/:uid')
 router.route('/user')
 	.get(apiAuthController.isAuthenticated, userController.getUser)
 	.put(apiAuthController.isAuthenticated, userController.putUser);
+/*Endpoint for getting a user profile. Protected.*/
+router.route('/user/:usrn')
+	.get(apiAuthController.isAuthenticated, userController.getUserProfile);
 
 /*Create Endpoints for managing the user profile picture. Protected.*/
 router.route('/upload_image')
 	.post(apiAuthController.isAuthenticated, userController.putUserImage);
 
+/*Create Endpoints for managing movie comments. Protected.*/
+router.route('/comments/:movieId')
+	.post(apiAuthController.isAuthenticated, CommentController.postComments)
+	.get(apiAuthController.isAuthenticated, CommentController.getComments);
+
+router.route('/viewed/:mid')
+	.post(apiAuthController.isAuthenticated, userController.postViews)
+	.get(apiAuthController.isAuthenticated, userController.getViewed);
+
 /*Get the image of the user. Unprotected.*/
 router.route('/user_images/:user_image')
 	.get(userController.getUserImage);
+
 /*Get the Movie and stream it to the client. Unprotected.*/
 router.route('/show_movie/:mid/:quality')
 	.get(MovieController.getMovie);
+/*Get the Movie Subtitles and strea  it to the client*/
+router.route('/movie_subtitles/:mid/:lang')
+	.get(MovieController.getMovieSubs);
 
 app.use('/api', router);
 app.listen(port);

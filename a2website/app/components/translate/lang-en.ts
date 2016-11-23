@@ -25,4 +25,14 @@ export const LANG_EN_TRANS = {
 	'Upload a different photo...': 'Upload a different photo...',
 	'Save Changes': 'Save Changes',
 	'Upload': 'Upload',
+	/*HOME PAGE*/
+	'Show Info': 'Show Info',
+	'Watched': 'Watched',
+	'Unwatched': 'Unwatched',
+	'Summary': 'Summary',
+	'Rating': 'Rating',
+	'Language': 'Language',
+	'MPA Rating': 'MPA Rating',
+	'Play At': 'Play At',
+	'Close': 'Close',	
 };

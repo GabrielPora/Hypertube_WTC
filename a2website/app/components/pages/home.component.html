@@ -9,7 +9,7 @@
                     <h2>{{ movie.title }}</h2>
                     <p>{{ movie.synopsis | truncate : 200 }}</p>
                     <br/>
-                    <a class="info" (click)="viewMovie(movie)">View Info</a>
+                    <a class="info" (click)="viewMovie(movie)">{{ 'Show Info' | translate }}</a>
                 </div>
             </div>    
         </div>
@@ -39,7 +39,7 @@
 <!--Modal View for the Movie-->
 <modal #modal *ngIf="selectedMovie != null">
     <modal-header>
-        <h4 class="modal-title">{{selectedMovie.title_long}}</h4>
+        <h4 class="modal-title">{{selectedMovie.title_long}} | ({{ ((selectedMovieViewed) ? 'Watched' : 'Unwatched') | translate }})</h4>
     </modal-header>
     <modal-body>
         <div class="container-fluid">
@@ -50,22 +50,22 @@
                     alt="{{selectedMovie.title}}"/>
                 </div>
                 <div class="col-lg-5 col-md-6 col-sm-6 col-xs-8">
-                    <b>Summary:</b>
+                    <b>{{ 'Summary' | translate }}:</b>
                     <p>{{selectedMovie.summary | truncate : 500 }}</p>
-                    <b>Rating:</b> {{selectedMovie.rating}}<br/>
-                    <b>Language:</b> {{selectedMovie.language}}<br/>
-                    <b>MPA Rating:</b> {{ selectedMovie.mpa_rating }}
+                    <b>{{ 'Rating' | translate }}:</b> {{selectedMovie.rating}}<br/>
+                    <b>{{ 'Language' | translate }}:</b> {{selectedMovie.language}}<br/>
+                    <b>{{ 'MPA Rating' | translate }}:</b> {{ selectedMovie.mpa_rating }}
                 </div>
             </div>
         </div> 
     </modal-body>
     <modal-footer>
-        Play At: 
+        {{ 'Play At' | translate }}: 
         <button type="button" class="btn btn-default" 
                 *ngFor="let torrent of selectedTorrent"
                 [routerLink]="['/movie']"
                 [queryParams]="{ mid: selectedMovie.id, quality: torrent.quality }">{{ torrent.quality }}</button>
-        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">{{ 'Close' | translate }}</button>
     </modal-footer>
 </modal>
 

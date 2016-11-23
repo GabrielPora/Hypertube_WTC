@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { ModalComponent } from 'ng2-bs3-modal/ng2-bs3-modal';
 import { MoviesService } from '../services/movies.service';
 import { AuthService } from '../services/auth.service';
+import { Http, Headers, RequestOptions, RequestMethod, Request, Response } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
@@ -21,12 +22,14 @@ export class HomeComponent {
   private currPage = 1;
   private viewMovies;
   private selectedMovie = null;
+  private selectedMovieViewed = null;
   private selectedTorrent = null;
 
   constructor(public moviesService: MoviesService, 
               window: Window, 
               private auth: AuthService,
-              private router: Router) {
+              private router: Router,
+              private http: Http) {
     this.loadMovies(this.currPage);
     this.user = JSON.parse(localStorage.getItem('user'));
   }
@@ -49,7 +52,8 @@ export class HomeComponent {
       .subscribe(
         data => {
           for (var i = 0; i < data.data.movies.length; i++) {
-            this.viewMovies.push(data.data.movies[i]);
+            if (this.viewMovies !== undefined)
+              this.viewMovies.push(data.data.movies[i]);
           }
           this.selectedMovie = this.viewMovies[0];
         },
@@ -84,6 +88,26 @@ export class HomeComponent {
   viewMovie(movie) {
     this.selectedMovie = movie;
     this.selectedTorrent = movie.torrents;
-    this.modal.open();
+
+    const contentHeader = new Headers();
+		contentHeader.append('Accept', 'application/json');
+		contentHeader.append('Authorization', 'Bearer ' + localStorage.getItem('auth_token'));
+    this.http.get('http://localhost:3001/api/viewed/' + movie.id, { headers: contentHeader })
+      .map(res => res.json())
+      .subscribe(
+        data => {
+          if (data.success && data.viewed) {
+            this.selectedMovieViewed = true;
+          } else {
+            this.selectedMovieViewed = false;
+          }
+          this.modal.open();
+        },
+        error => console.log(error),
+        () => console.log('Got View')
+      );
+    
+
+    //this.modal.open();
   }
 }

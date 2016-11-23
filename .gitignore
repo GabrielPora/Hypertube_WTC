@@ -20,3 +20,4 @@
 .gitignore.swp
 **/.DS_Store
 **/._.*
+**/Rest_Api/public

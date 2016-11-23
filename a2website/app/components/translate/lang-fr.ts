@@ -25,4 +25,14 @@ export const LANG_FR_TRANS = {
 	'Upload a different photo...': 'Téléchargez une autre photo...',
 	'Save Changes': 'Sauvegarder les modifications',
 	'Upload': 'Télécharger',
+	/*HOME PAGE*/
+	'Show Info': 'Voir l\'info',
+	'Watched': 'Suiv.',
+	'Unwatched': 'Sans Surveillance',
+	'Summary': 'Résumé',
+	'Rating': 'Évaluation',
+	'Language': 'La langue',
+	'MPA Rating': 'Classement MPA',
+	'Play At': 'Jouer à',
+	'Close': 'Close',	
 };
