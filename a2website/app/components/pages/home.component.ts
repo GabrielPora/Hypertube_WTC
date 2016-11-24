@@ -18,6 +18,9 @@ export class HomeComponent {
   @ViewChild('modal')
   modal: ModalComponent;
 
+  @ViewChild('advSearch')
+  advModal: ModalComponent;
+
   private user;
   private currPage = 1;
   private viewMovies;
@@ -106,8 +109,57 @@ export class HomeComponent {
         error => console.log(error),
         () => console.log('Got View')
       );
-    
+  }
 
-    //this.modal.open();
+  search(event, searchValue) {
+    event.preventDefault();
+    this.moviesService.searchBasic(searchValue)
+      .subscribe(
+        data => {
+          this.viewMovies = data.data.movies;
+          this.selectedMovie = this.viewMovies[0];
+        },
+        error => console.log(error),
+        () => console.log(this.viewMovies)
+      )
+      console.log('Searched');
+  }
+
+  showAdv(event) {
+    event.preventDefault();
+    console.log('Open Advanced');
+    this.advModal.open();
+  }
+  
+  private searchURL = "";
+
+  advSrch(event, query, genre1, genre2, genre3, quality, sortby) {
+    event.preventDefault();
+    console.log('Advanced Search', query, genre1, genre2, genre3, quality, sortby);
+    
+    if (query && query.length() > 0)
+      this.searchURL += "&query_term=" + query;
+    if (genre1 && genre1 !== "(Unselected)")
+      this.searchURL += "&genre=" + genre1;
+    if (genre2 && genre2 !== "(Unselected)")
+      this.searchURL += "&genre=" + genre2;
+    if (genre3 && genre3 !== "(Unselected)")
+      this.searchURL += "&genre=" + genre3;
+    if (quality && quality !== "(Unselected)")
+      this.searchURL += "&quality=" + quality;
+    if (sortby && sortby !== "(Unselected)")
+      this.searchURL += "&sort_by=" + sortby;
+
+    this.moviesService.searchAdvanced(this.searchURL)
+      .subscribe(
+        data => {
+          this.viewMovies = data.data.movies;
+          this.selectedMovie = this.viewMovies[0];
+        },
+        error => console.log(error),
+        () => console.log(this.viewMovies)
+      )
+      console.log('Searched');
+      this.searchURL = "";
   }
 }
