@@ -1,4 +1,14 @@
-<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="0.5" [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()">
+<form (submit)="search($event, txt.value)" class="navbar-form mySearch" role="form">
+    <div class="input-group add-on mySearch_2">
+        <input class="form-control" #txt placeholder="Movie Title/IMDb Code, Actor Name/IMDb Code, Director Name/IMDb Code" type="text">
+        <div class="input-group-btn">
+            <button class="btn btn-default" type="submit">{{ 'Search' | translate }}</button>
+            <button class="btn btn-default" (click)="showAdv($event)">Advanced</button>
+        </div>
+    </div>
+</form>
+
+<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="2.5" [infiniteScrollThrottle]="2000" (scrolled)="onScrollDown()">
     <div class="column" *ngFor="let movie of viewMovies">
         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">    
             <div class="hovereffect" style="float:left;">
@@ -68,6 +78,91 @@
         <button type="button" class="btn btn-primary" (click)="modal.close()">{{ 'Close' | translate }}</button>
     </modal-footer>
 </modal>
+
+<!--Modal View for the Advanced Search-->
+<modal #advSearch *ngIf="selectedMovie != null">
+    <modal-header>
+        <h4 class="modal-title">Advanced Search</h4>
+    </modal-header>
+    <modal-body>
+        <form (submit)="advSrch($event, query.value, genre1.value, genre2.value, genre3.value, quality.value, sortby.value)" role="form">
+            <div class="container-fluid">
+                <div class="column">
+                    <div class="form-group">
+                        <label for="srch">Search:</label>
+                        <input #query type="text" class="form-control" id="srch">
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Genre 1:</label>
+                        <select #genre1 class="form-control" id="sel1">
+                            <option selected="true">(Unselected)</option>
+                            <option>Sci-Fi</option>
+                            <option>Adventure</option>
+                            <option>Action</option>
+                            <option>Animation</option>
+                            <option>Crime</option>
+                            <option>Comedy</option>
+                            <option>Thriller</option>
+                            <option>Fantasy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Genre 2:</label>
+                        <select #genre2 class="form-control" id="sel1">
+                            <option selected="true">(Unselected)</option>
+                            <option>Sci-Fi</option>
+                            <option>Adventure</option>
+                            <option>Action</option>
+                            <option>Animation</option>
+                            <option>Crime</option>
+                            <option>Comedy</option>
+                            <option>Thriller</option>
+                            <option>Fantasy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Genre 3:</label>
+                        <select #genre3 class="form-control" id="sel1">
+                            <option selected="true">(Unselected)</option>
+                            <option>Sci-Fi</option>
+                            <option>Adventure</option>
+                            <option>Action</option>
+                            <option>Animation</option>
+                            <option>Crime</option>
+                            <option>Comedy</option>
+                            <option>Thriller</option>
+                            <option>Fantasy</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Quality:</label>
+                        <select #quality class="form-control" id="sel1">
+                            <option selected="true">(Unselected)</option>
+                            <option>3D</option>
+                            <option>1080p</option>
+                            <option>720p</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="sel1">Sort By:</label>
+                        <select #sortby class="form-control" id="sel1">
+                            <option selected="true">(Unselected)</option>
+                            <option value="title">Title</option>
+                            <option value="ratings">Ratings</option>
+                            <option value="year">Year</option>
+                            <option value="date_added">Date Added</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" >{{ 'Search' | translate }}</button>
+        </form> 
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="advSearch.close()">{{ 'Close' | translate }}</button>
+    </modal-footer>
+</modal>
+
 
 <!--User Panel-->
 <div class="userInfo">

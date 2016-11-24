@@ -3,7 +3,7 @@
 	<hr>
 	<div align="center" class="embed-responsive embed-responsive-16by9">
 		<video class="embed-responsive-item" controls seeking >
-			<!--<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}" type="video/mp4">-->
+			<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}" type="video/mp4">
 			<track src="http://localhost:3001/api/movie_subtitles/{{ imdbCode }}/{{ lang }}" kind="subtitles" srclang="en">
 		</video>
 	</div>
@@ -46,9 +46,6 @@
     <div class="titleBox">
       <label>Movie Comments</label>
     </div>
-    <!--<div class="commentBox">        
-        <p class="taskDescription">Have a comment on this movie? Place it here.</p>
-    </div>-->
     <div class="actionBox">
         <ul class="commentList"  *ngIf="(MovieComments !== null) ? true : false">
             <li *ngFor="let cmt of MovieComments">

@@ -8,12 +8,24 @@ export class MoviesService {
     constructor(private http: Http) {
     }
 
-    private getMoviesUrl = "https://yts.ag/api/v2/list_movies.json";
+    private getMoviesUrl = "https://yts.ag/api/v2/list_movies.json?sort_by=title";
     private getMovieUrl = "https://yts.ag/api/v2/movie_details.json?movie_id=";
     private getMovieImdbUrl = "http://www.omdbapi.com/?plot=full&r=json&i=";
 
     getMovies(page) {
-        var url = this.getMoviesUrl + "?page=" + page.toString();
+        var url = this.getMoviesUrl + "&page=" + page.toString();
+        return this.http.get(url)
+            .map((res:Response) => res.json());
+    }
+
+    searchBasic(query) {
+        var url = this.getMoviesUrl + "&query_term=" + query;
+        return this.http.get(encodeURI(url))
+            .map((res:Response) => res.json());
+    }
+
+    searchAdvanced(searchURL) {
+        var url = "https://yts.ag/api/v2/list_movies.json?limit=50" + searchURL;
         return this.http.get(url)
             .map((res:Response) => res.json());
     }
