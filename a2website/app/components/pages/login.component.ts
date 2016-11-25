@@ -13,6 +13,9 @@ import { Subscription } 					from 'rxjs';
 export class LoginComponent implements OnInit, OnDestroy {
 	@ViewChild('modal')
   	modal: ModalComponent;
+	@ViewChild('42login')
+	modal_42: ModalComponent;
+
 	private subscription: Subscription;
 	private errMessage;
 
@@ -31,6 +34,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	login42(tmp_token) {
+		this.modal_42.open();
 		this.authService.login42(tmp_token)
 			.subscribe(
 				(result) => {
@@ -41,6 +45,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 						this.errMessage = "Internal Error in Server. We apologise for the inconvenience.";
 						this.modal.open();
 					}
+				},
+				(error) => {
+					this.errMessage = "Internal Error in Server. We apologise for the inconvenience.";
+					this.modal.open();
 				}
 			);
 	}
@@ -52,11 +60,16 @@ export class LoginComponent implements OnInit, OnDestroy {
 		this.authService.login(username, password)
 			.subscribe(
 			(result) => {
-				if (result) {
+				if (result.success) {
 					this.router.navigate(['/home']);
 				}
+			},
+			(error) => {
+				var msg = JSON.parse(error._body);
+				this.errMessage = msg.msg;
+				this.modal.open();
 			}
-			);
+		);
 	}
 
 	ngOnDestroy() {
