@@ -18,15 +18,20 @@ export class AuthService {
                 JSON.stringify({ username, password }),
                 {headers})
             .map(res => res.json())
-            .map((res) => {
-                if (res.success) {
-                    localStorage.setItem('auth_token', res.token);
-                    localStorage.setItem('user', res.user);
-                    localStorage.setItem('account_type', res.type);
-                    this.LoggedIn = true;
+            .map(
+                (res) => {
+                    console.log(res);
+                    if (res.success) {
+                        localStorage.setItem('auth_token', res.token);
+                        localStorage.setItem('user', res.user);
+                        localStorage.setItem('account_type', res.type);
+                        this.LoggedIn = true;
+                    } else
+                        return ({ success: res.success, msg: res.error })
+                    return ({ success: res.success });
                 }
-                return (res.success);
-            });
+            );
+
     }
 
     login42(tmp_token) {

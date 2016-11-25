@@ -33,3 +33,12 @@
         <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
     </modal-footer>
 </modal>
+
+<modal #42login id="42login">
+    <modal-header>
+        <h4 class="modal-title">{{ 'Login' | translate }}</h4>
+    </modal-header>
+    <modal-body>
+        {{ 'Authorization via 42 in progress. Please be patient.' | translate }}
+    </modal-body>
+</modal>
