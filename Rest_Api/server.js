@@ -7,12 +7,13 @@ var session		= require('express-session');
 var cors		= require('cors');
 var busbuy		= require('connect-busboy');
 
-var apiAuthController 	= require('./controllers/api.auth.js');
-var userController 		= require('./controllers/user.js');
-var	AuthController		= require('./controllers/auth.js');
-var MovieController		= require('./controllers/showMovie.js');
-var CommentController 	= require('./controllers/comment.js');
-var Config				= require('./config/database.js');
+var apiAuthController 		= require('./controllers/api.auth.js');
+var userController 			= require('./controllers/user.js');
+var	AuthController			= require('./controllers/auth.js');
+var MovieController			= require('./controllers/showMovie.js');
+var CommentController 		= require('./controllers/comment.js');
+var ResetPasswordController = require('./controllers/passwordReset.js');
+var Config					= require('./config/database.js');
 
 var app 		= express();
 var port 		= process.env.PORT || 3001;
@@ -66,6 +67,11 @@ router.route('/delete_token/:uid')
 router.route('/user')
 	.get(apiAuthController.isAuthenticated, userController.getUser)
 	.put(apiAuthController.isAuthenticated, userController.putUser);
+/*Endpoints for forgot and reset password. Unprotected.*/
+router.route('/forgot')
+	.post(ResetPasswordController.postForgot);
+router.route('/reset')
+	.post(ResetPasswordController.postReset);
 /*Endpoint for getting a user profile. Protected.*/
 router.route('/user/:usrn')
 	.get(apiAuthController.isAuthenticated, userController.getUserProfile);

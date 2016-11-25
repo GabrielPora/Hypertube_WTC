@@ -14,6 +14,8 @@ import { SignupComponent }              from './components/pages/signup.componen
 import { ProfileComponent }             from './components/pages/profile.component';
 import { MovieComponent }               from './components/pages/movie.component';
 import { UserProfile }                  from './components/pages/userProfile.component';
+import { ForgotComponent }              from './components/pages/forgot.component';
+import { ResetComponent }               from './components/pages/reset.component';
 import { routing }                      from './app.routing';
 
 import { TruncatePipe }                 from './components/truncate.pipe';
@@ -43,6 +45,8 @@ const WINDOW_PROVIDER: ValueProvider = {
                   ProfileComponent,
                   MovieComponent,
                   UserProfile,
+                  ForgotComponent,
+                  ResetComponent,
                   TruncatePipe,
                   TranslatePipe ],
   providers: [ WINDOW_PROVIDER, 

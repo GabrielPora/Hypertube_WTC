@@ -8,6 +8,8 @@ import { SignupComponent } 		from './components/pages/signup.component';
 import { ProfileComponent } 	from './components/pages/profile.component';
 import { MovieComponent } 		from './components/pages/movie.component';
 import { UserProfile }          from './components/pages/userProfile.component';
+import { ForgotComponent } 		from './components/pages/forgot.component';
+import { ResetComponent }		from './components/pages/reset.component';
 
 import { AuthGaurd } from './components/auth.gaurd';
 
@@ -47,6 +49,14 @@ const appRoutes: Routes = [
 	{
 		path: 'signup',
 		component: SignupComponent
+	},
+	{
+		path: 'forgot',
+		component: ForgotComponent
+	},
+	{
+		path: 'reset',
+		component: ResetComponent
 	}
 ];
 

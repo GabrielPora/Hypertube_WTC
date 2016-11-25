@@ -1,0 +1,29 @@
+ <div class="login jumbotron center-block" style="padding-left: 20px; padding-right: 20px;">
+   <h1>{{ 'Forgot Password' | translate }}</h1>
+   <form role="form" (submit)="submitRst($event, password.value, confpwd.value)">
+    <div class="form-group">
+		<label for="password">{{ 'Password' | translate }}</label>
+		<input type="password" #password class="form-control" id="password" placeholder="{{ 'Password' | translate }}" required="true">
+	</div>
+	<div class="form-group">
+		<label for="confpwd">{{ 'Confirm Password' | translate }}</label>
+		<input type="password" #confpwd class="form-control" id="confpwd" placeholder="{{ 'Confirm Password' | translate }}" required="true">
+	</div>
+    <div class="btn-group btn-block">
+      <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+      <button [routerLink]="['/login']" type="submit" class="btn btn-danger">{{ 'Cancel' | translate }}</button>
+    </div>
+  </form>
+ </div>
+
+ <modal #modal>
+    <modal-header>
+        <h4 class="modal-title">{{ 'Reset Password' | translate }}</h4>
+    </modal-header>
+    <modal-body>
+        {{ errMessage | translate }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+    </modal-footer>
+</modal>
