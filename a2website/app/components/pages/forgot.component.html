@@ -1,0 +1,24 @@
+ <div class="login jumbotron center-block" style="padding-left: 20px; padding-right: 20px;">
+   <h1>{{ 'Forgot Password' | translate }}</h1>
+   <form role="form" (submit)="submitFrg($event, email.value)">
+    <div class="form-group">
+      <label for="email">{{ 'E-mail' | translate }}</label>
+      <input type="text" #email class="form-control" id="email" placeholder="Enter E-mail" required="true">
+    </div>
+    <div class="btn-group btn-block">
+      <button type="submit" class="btn btn-primary">{{ 'Submit' | translate }}</button>
+      <button [routerLink]="['/login']" type="submit" class="btn btn-danger">{{ 'Cancel' | translate }}</button>
+    </div>
+  </form>
+ </div>
+ <modal #modal>
+    <modal-header>
+        <h4 class="modal-title">{{ 'Forgot Password' | translate }}</h4>
+    </modal-header>
+    <modal-body>
+        {{ errMessage | translate }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+    </modal-footer>
+</modal>
