@@ -96,9 +96,12 @@ router.route('/user_images/:user_image')
 /*Get the Movie and stream it to the client. Unprotected.*/
 router.route('/show_movie/:mid/:quality')
 	.get(MovieController.getMovie);
-/*Get the Movie Subtitles and strea  it to the client*/
+
+/*Get the Movie Subtitles and stream  it to the client*/
 router.route('/movie_subtitles/:mid/:lang')
 	.get(MovieController.getMovieSubs);
+router.route('/subtitles/:lang/:mid')
+	.get(MovieController.getSubtitle);
 
 app.use('/api', router);
 app.listen(port);

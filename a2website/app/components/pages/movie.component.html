@@ -2,9 +2,10 @@
 	<h1>{{ (entireMovie !== null) ? entireMovie.title : '' }}</h1>
 	<hr>
 	<div align="center" class="embed-responsive embed-responsive-16by9">
-		<video class="embed-responsive-item" controls seeking >
-			<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}" type="video/mp4">
-			<track src="http://localhost:3001/api/movie_subtitles/{{ imdbCode }}/{{ lang }}" kind="subtitles" srclang="en">
+		<video class="embed-responsive-item" controls seeking crossorigin="true">
+			<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}">
+			<!--<track src="http://localhost:3001/api/movie_subtitles/{{ imdbCode }}/{{ lang }}" kind="subtitles" srclang="en">-->
+			<track *ngFor="let sub of subtitles" src="{{ sub.clientUrl }}" kind="subtitles" srclang="{{ sub.languageCode }}" label="{{ sub.Language }}">
 		</video>
 	</div>
 	<hr>
@@ -57,7 +58,9 @@
                 </div>
                 <div class="commentText">
                     <p class="">{{ cmt.Comment.comment }}</p> 
-					<span class="date sub-text">on {{ cmt.Comment.created | date: 'MMMM d, y H:mm'}}</span>
+					<span class="date sub-text">on {{ cmt.Comment.created | date: 'MMMM d, y H:mm'}}, by 
+						<a [routerLink]="['/user']" [queryParams]="{ username: cmt.username }">{{ cmt.username }}</a>
+					</span>
                 </div>
             </li>
         </ul>
