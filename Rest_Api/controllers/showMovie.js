@@ -4,6 +4,7 @@ var path =			require('path');
 var http =			require('http');
 var unzip =			require('unzip');
 var YFsubs = 		require('yify-subs');
+var srt2vtt =		require('srt2vtt');
 var Request = 		require('request');
 var torrentStream = require('torrent-stream');
 
@@ -28,24 +29,31 @@ exports.getMovie = function (req, res) {
 					index = i;
 			}
 			magnet += torrents[index].hash;
-			magnet += "&dn=" + escape(movie.data.movie.title_long);
+			magnet += "&dn=" + encodeURIComponent(movie.data.movie.title_long);
 			magnet += "&tr=udp://open.demonii.com:1337/announce";
 			magnet += "&tr=udp://tracker.openbittorrent.com:80";
 			magnet += "&tr=udp://tracker.coppersurfer.tk:6969";
 			magnet += "&tr=udp://glotorrents.pw:6969/announce";
-			//console.log(magnet);
+			console.log(magnet);
 
 			var engine = new torrentStream(magnet, {
 				connections: 100,
 				uploads: 10,
 				verify: true,
-				path: path.resolve('public/movies')
+				path: path.resolve('public/movies'),
+				trackers: [
+					'udp://tracker.opentrackr.org:1337/announce',
+					'udp://torrent.gresille.org:80/announce',
+					'udp://p4p.arenabg.com:1337',
+					'udp://tracker.leechers-paradise.org:6969'
+				]
 			});
 			engine.on('ready', function () {
 				engine.files.forEach(function (file) {
 					var extension = path.extname(file.path)
-					if (extension === '.mp4') {
+					if (extension === '.mp4' || extension === '.mkv' || extension === '.avi') {
 						var stream = file.createReadStream();
+						console.log('Return Stream');
 						stream.pipe(res);
 					}
 				});
@@ -54,33 +62,52 @@ exports.getMovie = function (req, res) {
 	}
 }
 
-exports.getMovieSubs = function (req, res) {
-	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+exports.getSubtitle = function (req, res) {
+	if (req.params.lang && req.params.mid) {
+		var sub = path.resolve('public/subtitles/' + req.params.lang + '/' + req.params.mid + '.vtt');
+		res.sendFile(sub);
+	}
+}
+
+exports.getMovieSubs = function (req, res, next) {
+	console.log('\n\n\n');
+
+	var availableSubs = [];
 	if (req.params.mid) {
 		YFsubs.getSubs(req.params.mid).then(function (data) {
-			var movieSubs = YFsubs.filter(data, supportedLanguages).subs;
-			var zipFileUrl = movieSubs[req.params.lang][0].url;
-			if (zipFileUrl === undefined) //If there are no subtitles for this lang, return default english.
-				zipFileUrl = movieSubs['en'][0].url;
-		
-			var fileName = path.basename(url.parse(zipFileUrl).pathname);
-			var fileStream = fs.createWriteStream(path.resolve('public/subtitles/' + fileName));
-			http.get(zipFileUrl, function (response) {
-				response.pipe(fileStream);
-				fs.createReadStream(path.resolve('public/subtitles/' + fileName))
-					.pipe(unzip.Parse())
-					.on('entry', function (entry) {
-						var fileName = entry.path;
-						if (path.extname(fileName) === '.srt') {
-							entry.pipe(res);
-							//res.json({ success: true, filePath: 'http://localhost:3001'}); 
-						} else {
-							entry.autodrain();
-						}					
-					});
-			});
+			var allLangs = YFsubs.filter(data, supportedLanguages).subs;
+			for (var i = 0; i < supportedLanguages.length; i++) {
+				if (allLangs[supportedLanguages[i]] !== undefined) {
+					var sub = { languageCode: supportedLanguages[i],
+								Language: YFsubs.getlanguageName(supportedLanguages[i]),
+								zipUrl: allLangs[supportedLanguages[i]][0].url,
+								clientUrl: 'http://localhost:3001/api/subtitles/' + supportedLanguages[i] + '/' + req.params.mid };
+					availableSubs.push(sub);
+				}
+			}
+			res.json({ success: true, subs: availableSubs });
+			console.log('after response');
+			downloadSubs(req.params.mid, availableSubs);			
 		});
 	}
+}
+
+function downloadSubs(mid, avSubs) {
+	avSubs.forEach(function (lang) {
+		http.get(lang.zipUrl, function (zipResponse) {
+			zipResponse.pipe(unzip.Parse())
+				.on('entry', function (srtEntry) {
+					let buffer = [];
+					if (path.extname(srtEntry.path) === '.srt') {
+						srtEntry.on('data', data => buffer.push(data));
+						srtEntry.on('end', () => {
+							srt2vtt(Buffer.concat(buffer), function (err, vttData) {
+								if (err) throw new Error(err);
+								fs.writeFileSync(path.resolve('public/subtitles/' + lang.languageCode + '/' + mid + '.vtt'), vttData);
+							});
+						});
+					}
+				});
+		});
+	});		
 }

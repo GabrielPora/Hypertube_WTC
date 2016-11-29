@@ -32,6 +32,7 @@ export class MovieComponent implements OnInit, OnDestroy {
 
 	private imdb = null;
 	private lang = "en";
+	private subtitles = null;
 
 	public MovieComments = null;
 
@@ -83,10 +84,13 @@ export class MovieComponent implements OnInit, OnDestroy {
 		this.moviesService.getMovie(mid)
 			.subscribe(
 				data => {
+					console.log('test');
 					console.log(data.data.movie);
 					this.entireMovie = data.data.movie;
 					this.movieTorrents = this.entireMovie.torrents;
 					this.imdbCode = this.entireMovie.imdb_code;
+
+					this.populateSubtitles(this.imdbCode);
 
 					this.moviesService.getMovieIMDB(this.imdbCode)
 						.subscribe(
@@ -99,6 +103,20 @@ export class MovieComponent implements OnInit, OnDestroy {
 				},
 				error => console.log(error),
 				() => console.log("Loaded Movie")
+			);
+	}
+
+	populateSubtitles(mid) {
+		console.log('Getting Subtitles for: ', mid);
+		this.http.get('http://localhost:3001/api/movie_subtitles/' + mid + '/' + this.lang)
+			.map(res => res.json())
+			.subscribe(
+				data => {
+					console.log(data);
+					this.subtitles = data.subs;
+					console.log(this.subtitles);
+				},
+				error => console.log(error)
 			);
 	}
 
