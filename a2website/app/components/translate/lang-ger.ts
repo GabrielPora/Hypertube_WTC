@@ -16,7 +16,7 @@ export const LANG_DE_TRANS = {
 	'Create Account': 'Benutzerkonto anlegen',
 	'Forgot Password': 'Passwort vergessen',
 	'Internal Error in Server. We apologise for the inconvenience.': 'Interner Fehler in Server. Wir entschuldigen uns für die Unannehmlichkeiten.',
-	'Authorization via 42 in progress. Please be patient.': 'utorisierung über 42 in Bearbeitung. Bitte haben Sie Geduld.',
+	'Authorization in progress. Please be patient.': 'utorisierung in Bearbeitung. Bitte haben Sie Geduld.',
 	/*REGISTRATION PAGE*/
 	'Confirm Password': 'Bestätige das Passwort',
 	'First Name': 'Vorname',

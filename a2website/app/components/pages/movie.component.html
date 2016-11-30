@@ -2,9 +2,8 @@
 	<h1>{{ (entireMovie !== null) ? entireMovie.title : '' }}</h1>
 	<hr>
 	<div align="center" class="embed-responsive embed-responsive-16by9">
-		<video class="embed-responsive-item" controls seeking crossorigin="true">
+		<video controls seeking crossorigin="true" preload="auto" class="video-js vjs-default-skin">
 			<source src="http://localhost:3001/api/show_movie/{{ movieID }}/{{ movieQuality }}">
-			<!--<track src="http://localhost:3001/api/movie_subtitles/{{ imdbCode }}/{{ lang }}" kind="subtitles" srclang="en">-->
 			<track *ngFor="let sub of subtitles" src="{{ sub.clientUrl }}" kind="subtitles" srclang="{{ sub.languageCode }}" label="{{ sub.Language }}">
 		</video>
 	</div>
