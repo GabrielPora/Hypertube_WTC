@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	@ViewChild('modal')
   	modal: ModalComponent;
 	@ViewChild('42login')
-	modal_42: ModalComponent;
+	authInProgressModal: ModalComponent;
 
 	private subscription: Subscription;
 	private errMessage;
@@ -37,6 +37,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	loginFacebook(tmp_token) {
+		this.authInProgressModal.open();
 		this.authService.loginFacebook(tmp_token)
 			.subscribe(
 				(result) => {
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 	}
 
 	login42(tmp_token) {
-		this.modal_42.open();
+		this.authInProgressModal.open();
 		this.authService.login42(tmp_token)
 			.subscribe(
 				(result) => {
