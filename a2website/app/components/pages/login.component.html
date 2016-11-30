@@ -16,10 +16,16 @@
     </div>
   </form>
   <p>{{ 'Or Login With' | translate }}:</p>
-  <button type="button" class="btn btn-primary btn-block" 
-    onclick="window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=cf355a16a80ff46f91915c6ac4a1ec20ed7cb9f8b45a77ebe9878953f012a673&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code'">
-    42
-  </button>
+  <div class="btn-group btn-block">
+    <button type="button" class="btn btn-primary" style="width:8em;" 
+        onclick="window.location.href = 'https://api.intra.42.fr/oauth/authorize?client_id=cf355a16a80ff46f91915c6ac4a1ec20ed7cb9f8b45a77ebe9878953f012a673&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Flogin&response_type=code'">
+        42
+    </button>
+    <button type="button" class="btn btn-primary" style="width:8em;"
+        onclick="window.location.href = 'https://www.facebook.com/v2.8/dialog/oauth?client_id=1555593181123503&scope=public_profile,user_photos,email&redirect_uri=' + encodeURIComponent('http://localhost:3000/login?facebook=true');">
+        Facebook
+    </button>
+  </div>
  </div>
 
  <modal #modal>

@@ -8,7 +8,7 @@
             <!--<img src="//placehold.it/100" class="avatar img-circle" alt="avatar">-->
             <img [src]=" user.image_link " class="avatar img-circle" alt="avatar" style="max-width: 140px; max-height: 140px"
               onError="this.src = '//placehold.it/100'">
-            <div *ngIf="(account_type === '42') ? false : true">
+            <div *ngIf="(account_type === '42' || account_type === 'FB') ? false : true">
               <h6>{{ 'Upload a different photo...' | translate }}</h6>
               <input type="file" #image (change)="uploadImage($event)" class="form-control" accept=".png, .jpeg">
             </div>            
@@ -17,10 +17,10 @@
       
       <!-- edit form column -->
       <div class="col-md-9 personal-info" >
-        <div class="alert alert-info" *ngIf="(account_type === '42') ? true : false">
+        <div class="alert alert-info" *ngIf="(account_type === '42' || account_type === 'FB') ? true : false">
           <!--<a class="panel-close close" data-dismiss="alert">×</a>--> 
           <i class="fa fa-coffee"></i>
-          This is a <strong>42 Account</strong>. You cannot change any data.
+          This is a <strong>{{ account_type }} Account</strong>. You cannot change any data.
         </div>
         <h3>Personal info</h3>
         
@@ -65,7 +65,7 @@
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <input *ngIf="(account_type === '42') ? false : true" type="submit" class="btn btn-primary" value="{{ 'Save Changes' | translate }}">
+              <input *ngIf="(account_type === '42' || account_type === 'FB') ? false : true" type="submit" class="btn btn-primary" value="{{ 'Save Changes' | translate }}">
             </div>
           </div>
         </form>
@@ -74,8 +74,9 @@
 </div>
 <hr>
 
+<!--User Panel-->
 <div class="userInfo">
-    <img alt="{{user.username}}" />
+    <img src="{{ user.image_link }}" alt="{{user.username}}" style="padding-left: 2px; max-height: 48px; max-width: 48px"/>
     <div class="info">
         <p>{{ user.username }}</p>
         <a (click)="logout()">Logout</a>

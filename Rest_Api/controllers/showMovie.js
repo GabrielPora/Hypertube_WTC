@@ -94,10 +94,11 @@ exports.getMovieSubs = function (req, res, next) {
 
 function downloadSubs(mid, avSubs) {
 	avSubs.forEach(function (lang) {
+		console.log('Loading: %s', lang);
 		http.get(lang.zipUrl, function (zipResponse) {
 			zipResponse.pipe(unzip.Parse())
 				.on('entry', function (srtEntry) {
-					let buffer = [];
+					var buffer = [];
 					if (path.extname(srtEntry.path) === '.srt') {
 						srtEntry.on('data', data => buffer.push(data));
 						srtEntry.on('end', () => {
