@@ -60,6 +60,8 @@ router.route('/authenticate')
 /*Exchanges 42 tmp token for access token. Unprotected. Returns Access Token*/
 router.route('/exchange42')
 	.post(AuthController.authenticate42);
+router.route('/authenticateFacebook')
+	.post(AuthController.authenticateFacebook);
 router.route('/delete_token/:uid')
 	.delete(AuthController.deleteToken);
 

@@ -54,6 +54,26 @@ export class AuthService {
             });
     }
 
+    loginFacebook(tmp_token) {
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+
+        return this.http.
+            post('http://localhost:3001/api/authenticateFacebook',
+            JSON.stringify({ tmp: tmp_token }),
+            { headers })
+            .map(res => res.json())
+            .map((res) => {
+                if (res.success) {
+                    localStorage.setItem('auth_token', res.token);
+                    localStorage.setItem('user', res.user);
+                    localStorage.setItem('account_type', res.type);
+                    this.LoggedIn = true;
+                }
+                return (res);
+            });
+    }
+
     logout() {
         var user = JSON.parse(localStorage.getItem('user'));
         var url = 'http://localhost:3001/api/delete_token/' + user._id;

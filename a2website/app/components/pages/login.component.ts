@@ -28,9 +28,31 @@ export class LoginComponent implements OnInit, OnDestroy {
 			(param: any) => {
 				let code = param['code'];
 				let access_tkn = param['access_token'];
-				if (code !== undefined)
+				let facebook = param['facebook'];
+				if (code !== undefined && facebook === undefined)
 					this.login42(code);
+				else if (facebook !== undefined && code !== undefined)
+					this.loginFacebook(code);
 			});
+	}
+
+	loginFacebook(tmp_token) {
+		this.authService.loginFacebook(tmp_token)
+			.subscribe(
+				(result) => {
+					console.log(result);
+					if (result) {
+						this.router.navigate(['/home']);
+					} else {
+						this.errMessage = "Error trying to log into facebook. Please try again later. Internal Server Error.";
+						this.modal.open();
+					}
+				},
+				(error) => {
+					this.errMessage = "Error trying to log into facebook. Please try again later. Internal Server Error.";
+					this.modal.open();
+				}
+			)
 	}
 
 	login42(tmp_token) {

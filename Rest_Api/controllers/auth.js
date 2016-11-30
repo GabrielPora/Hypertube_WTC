@@ -62,7 +62,7 @@ var functions = {
 					res.status(200).send({ success: false, msg: 'Authenticaton Failed.', err: jsonResponse.error_description });
 				}
 				else {
-					console.log("Access Token: %s", jsonResponse.access_token);
+					//console.log("Access Token: %s", jsonResponse.access_token);
 					var myDetailsOptions = {
 						method: 'GET',
 						url: 'https://api.intra.42.fr/v2/me',
@@ -110,13 +110,96 @@ var functions = {
 											user_id: newUser._id
 										});
 										nToken.save(function (err) {
-											if (err.code === 11000) {
+											if (err && err.code === 11000) {
 												res.json({ success: true, token: jsonResponse.access_token, type: '42', user: JSON.stringify(newUser) });
 											} else if (err) {
 												console.log(err);
 												res.json({ success: false, msg: 'Another error has occured.' });
 											} else {
 												res.json({ success: true, token: jsonResponse.access_token, type: '42', user: JSON.stringify(newUser) });
+											}							
+										});
+									}									
+								});
+							}
+						});
+					});
+				}
+			});
+		}
+	},
+	authenticateFacebook: function (req, res) {
+		console.log('Logging in via Facebook');
+		if (req.body.tmp) {
+			var options = {
+				method: 'GET',
+				url: 'https://graph.facebook.com/v2.8/oauth/access_token?' +
+					'client_id=1555593181123503' + 
+					'&redirect_uri=' + encodeURIComponent('http://localhost:3000/login?facebook=true') + 
+					'&client_secret=be75bbb37aa6b09f6752c4b2d436040c' + 
+					'&code=' +req.body.tmp
+			};
+			Request(options, function (err, response, body) {
+				var jsonBody = JSON.parse(body);
+				if (jsonBody.error) {
+					console.log(jsonBody.error.message);
+					res.status(200).send({ success: false, msg: 'Authenticaton Failed.', err: jsonBody.error.message });
+				} else {
+					console.log(jsonBody.access_token);
+					var myDetailsOptions = {
+						method: 'GET',
+						url: 'https://graph.facebook.com/v2.8/me?fields=id,name,picture,email',
+						headers: {
+							authorization: 'Bearer ' + jsonBody.access_token
+						}
+					}
+					Request(myDetailsOptions, function (err, response, myBody) {
+						var myUser = JSON.parse(myBody);
+						User.findOne({ username: myUser.name }, function (err, thisUser) {
+							if (err)
+								res.json({success: false, msg: 'Error occured checking for existing user.'});
+							if (thisUser) {
+								var nToken = new Token({
+									account_type: 'FB',
+									token: jsonBody.access_token,
+									user_id: thisUser._id
+								});
+								nToken.save(function (err) {
+									if (err && err.code === 11000) {
+										res.json({ success: true, token: jsonBody.access_token, type: 'FB', user: JSON.stringify(thisUser) });
+									} else if (err) {
+										console.log(err);
+										res.json({ success: false, msg: 'Another error has occured.' });
+									} else {
+										res.json({ success: true, token: jsonBody.access_token, type: 'FB', user: JSON.stringify(thisUser) });
+									}
+								});
+							} else {
+								var newUser = new User({ 
+									username: myUser.name,
+									firstName: myUser.name.split(' ')[0],
+									lastName: myUser.name.split(' ')[1],
+									email: myUser.email,
+									image_link: myUser.picture.data.url,
+									password: '8a5b9f7ca36f753574f459622473300GimlZAnt2bgp'
+								});
+								newUser.save(function (err) {
+									if (err) {
+										res.json({ success: false, msg: 'Error occured creating new user'});
+									} else {
+										var nToken = new Token({
+											account_type: 'FB',
+											token: jsonBody.access_token,
+											user_id: newUser._id
+										});
+										nToken.save(function (err) {
+											if (err && err.code === 11000) {
+												res.json({ success: true, token: jsonBody.access_token, type: 'FB', user: JSON.stringify(newUser) });
+											} else if (err) {
+												console.log(err);
+												res.json({ success: false, msg: 'Another error has occured.' });
+											} else {
+												res.json({ success: true, token: jsonBody.access_token, type: 'FB', user: JSON.stringify(newUser) });
 											}							
 										});
 									}									
