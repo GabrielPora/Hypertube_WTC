@@ -8,9 +8,9 @@
     </div>
 </form>
 
-<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="2.5" [infiniteScrollThrottle]="2000" (scrolled)="onScrollDown()">
+<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="1000" (scrolled)="onScrollDown()">
     <div class="column" *ngFor="let movie of viewMovies">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">    
+        <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">    
             <div class="hovereffect" style="float:left;">
                 <img class="img-responsive" [src]="movie.large_cover_image" 
                     onError="this.src = 'https://s-media-cache-ak0.pinimg.com/736x/ca/78/d7/ca78d7aecfb4818cff40efb8b368aac0.jpg'" 

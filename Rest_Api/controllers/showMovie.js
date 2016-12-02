@@ -11,6 +11,8 @@ var torrentStream = require('torrent-stream');
 var supportedLanguages = ['en', 'fr', 'de'];
 
 exports.getMovie = function (req, res) {
+	createFolders();
+	checkMovieExpiration();
 	if (req.params.mid) {
 		var torrents;
 		var magnet = "magnet:?xt=urn:btih:"
@@ -70,7 +72,7 @@ exports.getSubtitle = function (req, res) {
 }
 
 exports.getMovieSubs = function (req, res, next) {
-	console.log('\n\n\n');
+	createFolders();
 
 	var availableSubs = [];
 	if (req.params.mid) {
@@ -91,6 +93,54 @@ exports.getMovieSubs = function (req, res, next) {
 		});
 	}
 }
+
+function createFolders() {
+	var publicDir = path.resolve('./public');
+	if (!fs.existsSync(publicDir))
+		fs.mkdirSync(publicDir);
+	var moviesDir = path.resolve('./public/movies');
+	if (!fs.existsSync(moviesDir))
+		fs.mkdirSync(moviesDir);
+	var subtitleDir = path.resolve('./public/subtitles');
+	if (!fs.existsSync(subtitleDir))
+		fs.mkdirSync(subtitleDir);
+	for (var i = 0; i < supportedLanguages.length; i++)
+		if (!fs.existsSync(path.resolve(subtitleDir + '/' + supportedLanguages[i])))
+			fs.mkdirSync(path.resolve(subtitleDir + '/' + supportedLanguages[i]));
+}
+
+function checkMovieExpiration() {
+	var moviesPath = path.resolve('./public/movies');
+	return fs.readdirSync(moviesPath).filter(function(file) {
+		var stat = fs.statSync(path.join(moviesPath, file));
+		if (stat.isDirectory()) {
+			//TIME IN MILLISECONDS
+			//2505600000 	= 29 Days
+			//3600000 		= 1 Hour
+			//1800000		= 30 Min
+			//900000		= 15 Min
+			//300000		= 5 Min
+			if ((new Date().getTime() - stat.ctime.getTime()) > 2505600000){
+				console.log('Deleting: ', file);
+				deleteFolderRecursive(path.join(moviesPath, file))
+			}
+		}
+	});
+}
+
+function deleteFolderRecursive(path) {
+  if( fs.existsSync(path) ) {
+      fs.readdirSync(path).forEach(function(file) {
+        var curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) {
+              deleteFolderRecursive(curPath);
+          } else {
+              fs.unlinkSync(curPath);
+          }
+      });
+      fs.rmdirSync(path);
+    }
+};
 
 function downloadSubs(mid, avSubs) {
 	avSubs.forEach(function (lang) {
