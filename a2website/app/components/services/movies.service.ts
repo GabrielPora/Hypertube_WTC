@@ -8,7 +8,7 @@ export class MoviesService {
     constructor(private http: Http) {
     }
 
-    private getMoviesUrl = "https://yts.ag/api/v2/list_movies.json?sort_by=title";
+    private getMoviesUrl = "https://yts.ag/api/v2/list_movies.json?limit=50&sort_by=title";
     private getMovieUrl = "https://yts.ag/api/v2/movie_details.json?movie_id=";
     private getMovieImdbUrl = "http://www.omdbapi.com/?plot=full&r=json&i=";
 
