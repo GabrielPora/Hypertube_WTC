@@ -8,7 +8,7 @@
     </div>
 </form>
 
-<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="1000" (scrolled)="onScrollDown()">
+<div class="container-fluid" infinite-scroll [infiniteScrollDistance]="2.5" [infiniteScrollThrottle]="500" (scrolled)="onScrollDown()">
     <div class="column" *ngFor="let movie of viewMovies">
         <div class="col-lg-2 col-md-4 col-sm-6 col-xs-12">    
             <div class="hovereffect" style="float:left;">
