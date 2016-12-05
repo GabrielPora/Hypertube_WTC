@@ -20,4 +20,5 @@
 .gitignore.swp
 **/.DS_Store
 **/._.*
+**/Rest_Api/user_images
 **/Rest_Api/public
