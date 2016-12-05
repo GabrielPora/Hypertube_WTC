@@ -62,6 +62,8 @@ router.route('/exchange42')
 	.post(AuthController.authenticate42);
 router.route('/authenticateFacebook')
 	.post(AuthController.authenticateFacebook);
+router.route('/authenticateGoogle')
+	.post(AuthController.authenticateGoogle);
 router.route('/delete_token/:uid')
 	.delete(AuthController.deleteToken);
 

@@ -25,6 +25,10 @@
         onclick="window.location.href = 'https://www.facebook.com/v2.8/dialog/oauth?client_id=1555593181123503&scope=public_profile,user_photos,email&redirect_uri=' + encodeURIComponent('http://localhost:3000/login?facebook=true');">
         Facebook
     </button>
+    <button id="signinButton" class="btn btn-primary" style="width:8em;" 
+        onclick="auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);">
+        Google
+    </button>
   </div>
  </div>
 

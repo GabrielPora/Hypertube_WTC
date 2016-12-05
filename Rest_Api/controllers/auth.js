@@ -72,7 +72,7 @@ var functions = {
 					};
 					Request(myDetailsOptions, function (myError, myResponse, myBody) {
 						var myUser = JSON.parse(myBody);
-						User.findOne({ username: myUser.login }, function (err, regUser) {
+						User.findOne({ email: myUser.email }, function (err, regUser) {
 							if (err)
 								res.json({success: false, msg: 'Error occured checking for existing user.'});
 							if (regUser) {
@@ -155,7 +155,7 @@ var functions = {
 					}
 					Request(myDetailsOptions, function (err, response, myBody) {
 						var myUser = JSON.parse(myBody);
-						User.findOne({ username: myUser.name }, function (err, thisUser) {
+						User.findOne({ email: myUser.email }, function (err, thisUser) {
 							if (err)
 								res.json({success: false, msg: 'Error occured checking for existing user.'});
 							if (thisUser) {
@@ -208,6 +208,88 @@ var functions = {
 						});
 					});
 				}
+			});
+		}
+	},
+	authenticateGoogle: function (req, res) {
+		console.log('Logging in via Google.');
+		if (req.body.tmp) {
+			var options = {
+				method: 'POST',
+				url: 'https://accounts.google.com/o/oauth2/token',
+				form: {
+					code: req.body.tmp,
+					client_id: '719285471351-auffvf1rp7ktf8eqgjkednkl7fmqnj02.apps.googleusercontent.com',
+					client_secret: 'WGYNpVEIUHR-ow5QRelKWD4p',
+					redirect_uri: 'http://localhost:3000',
+					grant_type: 'authorization_code'
+				}
+			}
+			Request(options, function (err, response, body) {
+				if (err) return console.error("Error occured: ", err);
+                var results = JSON.parse(body);
+                if (results.error) return console.error("Error returned from Google: ", results.error);
+				var myOptions = {
+					method: 'GET',
+					url: 'https://www.googleapis.com/oauth2/v1/userinfo',
+					headers: {
+						authorization: 'Bearer ' + results.access_token
+					}
+				}
+				Request(myOptions, function (err, response, body) {
+					if (err) return console.error("Error occured: ", err);
+					var jsonUser = JSON.parse(body);
+					User.findOne({email: jsonUser.email }, function (err, thisUser) {
+						if (err) return res.json({success: false, msg: 'Error occured checking for existing user.'});
+						if (thisUser) {
+							var nToken = new Token({
+								account_type: 'GG',
+								token: results.access_token,
+								user_id: thisUser._id
+							});
+							nToken.save(function (err) {
+								if (err && err.code === 11000) {
+									res.json({ success: true, token: results.access_token, type: 'GG', user: JSON.stringify(thisUser) });
+								} else if (err) {
+									console.log(err);
+									res.json({ success: false, msg: 'Another error has occured.' });
+								} else {
+									res.json({ success: true, token: results.access_token, type: 'GG', user: JSON.stringify(thisUser) });
+								}
+							});
+						} else {
+							var newUser = new User({ 
+								username: jsonUser.name,
+								firstName: jsonUser.given_name,
+								lastName: jsonUser.family_name,
+								email: jsonUser.email,
+								image_link: jsonUser.picture,
+								password: '8a5b9f7ca36f753574f459622473300GimlZAnt2bgp'
+							});
+							newUser.save(function (err) {
+								if (err) {
+									res.json({ success: false, msg: 'Error occured creating new user'});
+								} else {
+									var nToken = new Token({
+										account_type: 'GG',
+										token: results.access_token,
+										user_id: newUser._id
+									});
+									nToken.save(function (err) {
+										if (err && err.code === 11000) {
+											res.json({ success: true, token: results.access_token, type: 'GG', user: JSON.stringify(newUser) });
+										} else if (err) {
+											console.log(err);
+											res.json({ success: false, msg: 'Another error has occured.' });
+										} else {
+											res.json({ success: true, token: results.access_token, type: 'GG', user: JSON.stringify(newUser) });
+										}							
+									});
+								}									
+							});
+						}
+					});
+				});
 			});
 		}
 	},
