@@ -29,11 +29,35 @@ export class LoginComponent implements OnInit, OnDestroy {
 				let code = param['code'];
 				let access_tkn = param['access_token'];
 				let facebook = param['facebook'];
-				if (code !== undefined && facebook === undefined)
+				let google = param['google'];
+				if (code !== undefined && facebook === undefined && google === undefined)
 					this.login42(code);
-				else if (facebook !== undefined && code !== undefined)
+				else if (facebook !== undefined && code !== undefined && google === undefined)
 					this.loginFacebook(code);
+				else if (google !== undefined && code !== undefined && facebook === undefined)
+					this.loginGoogle(code);
 			});
+	}
+
+	loginGoogle(tmp_token) {
+		console.log("Google Token: ", tmp_token);
+		this.authInProgressModal.open();
+		this.authService.loginGoogle(tmp_token)
+			.subscribe(
+				(result) => {
+					console.log(result);
+					if (result) {
+						this.router.navigate(['/home']);
+					} else {
+						this.errMessage = "Error trying to log into facebook. Please try again later. Internal Server Error.";
+						this.modal.open();
+					}
+				},
+				(error) => {
+					this.errMessage = "Error trying to log into facebook. Please try again later. Internal Server Error.";
+					this.modal.open();
+				}
+			)
 	}
 
 	loginFacebook(tmp_token) {
@@ -93,6 +117,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 				this.modal.open();
 			}
 		);
+	}
+
+	public signInCallback(authResult) {
+		console.log('test');
 	}
 
 	ngOnDestroy() {
