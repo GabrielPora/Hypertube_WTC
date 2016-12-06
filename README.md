@@ -11,9 +11,8 @@ To run the project please following the instructions below:
 4) Go into the Hypertube directory.
 5) brew install node
 6) npm install -g nodemon
-7) npm install
-8) cd Rest_Api; npm run dev
-9) cd ../a2website; npm start
+7) cd Rest_Api; npm install; npm run dev
+8) cd ../a2website; npm install; npm start
 ```
 You should now see a website
 
