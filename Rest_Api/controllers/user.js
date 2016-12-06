@@ -13,7 +13,9 @@ exports.postUser = function (req, res, next) {
 		password: req.body.password
 	});
 	user.save(function (err) {
-		if (err) {
+		if (err && err.code === 11000) {
+			return res.status(418).send({ success: false, err: 'E-mail already in use.' });
+		} else if (err) {
 			res.json({error: err});
 			console.log(err);
 		}		

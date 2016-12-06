@@ -7,7 +7,7 @@ var Config = require('../config/database.js');
 var functions = {
 	authenticate: function (req, res) {
 		User.findOne({
-			username: req.body.username
+			email: req.body.username
 		}, function (err, user) {
 			if (err) throw err;
 			if (!user) {

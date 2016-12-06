@@ -1,5 +1,5 @@
  <div class="login jumbotron center-block" style="padding-left: 20px; padding-right: 20px;">
-   <h1>Register</h1>
+   <h1>{{ 'Register' | translate }}</h1>
     <form role="form" 
         (submit)="signup($event, username.value, firstName.value, lastName.value, email.value, password.value, confpwd.value)">
         <div class="form-group">
@@ -30,3 +30,15 @@
         <a [routerLink]="['/forgot']">{{ 'Forgot Password' | translate }}?</a>
     </form>
  </div>
+
+ <modal #modal>
+    <modal-header>
+        <h4 class="modal-title">{{ 'Register' | translate }}</h4>
+    </modal-header>
+    <modal-body>
+        {{ errMessage | translate }}
+    </modal-body>
+    <modal-footer>
+        <button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+    </modal-footer>
+</modal>
