@@ -9,8 +9,10 @@ To run the project please following the instructions below:
 2) mkdir $HOME/goinfre/hyperDB
 3) RUN: mongod --dbpath=$HOME/goinfre/hyperDB
 4) Go into the Hypertube directory.
-5) cd Rest_Api; npm run dev
-6) cd ../a2website; npm start
+5) brew install node
+6) npm install -g nodemon
+7) cd Rest_Api; npm run dev
+8) cd ../a2website; npm start
 ```
 You should now see a website
 
