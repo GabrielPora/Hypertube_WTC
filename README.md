@@ -13,3 +13,5 @@ To run the project please following the instructions below:
 6) cd ../a2website; npm start
 ```
 You should now see a website
+
+If you plan on making a change, please do so on another branch and then make a pull request.
