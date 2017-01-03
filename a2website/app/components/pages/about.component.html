@@ -12,7 +12,7 @@
 </div>
 
 <div *ngIf="(user != undefined) ? true : false" class="userInfo">
-    <img alt="{{user.username}}" />
+    <img src="{{ user.image_link }}" alt="{{user.username}}" style="padding-left: 2px; max-height: 48px; max-width: 48px"/>
     <div class="info">
         <p>{{ user.username }}</p>
         <a (click)="logout()">Logout</a>
