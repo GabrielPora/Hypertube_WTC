@@ -32,7 +32,7 @@ exports.postForgot = function (req, res) {
 				service: 'Gmail',
 				auth: {
 					user: 'exallowen@gmail.com',
-					pass: 'OweP@ss_96'
+					pass: ''
 				}
 			}); //Creating the HTML Body
 			var text = '<html>'
